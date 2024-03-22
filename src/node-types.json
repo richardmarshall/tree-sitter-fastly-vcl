@@ -51,6 +51,10 @@
             "named": true
           },
           {
+            "type": "dot_ident",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
@@ -63,7 +67,7 @@
             "named": true
           },
           {
-            "type": "string",
+            "type": "string_concat",
             "named": true
           },
           {
@@ -106,6 +110,10 @@
             "named": true
           },
           {
+            "type": "dot_ident",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
@@ -118,7 +126,7 @@
             "named": true
           },
           {
-            "type": "string",
+            "type": "string_concat",
             "named": true
           },
           {
@@ -132,11 +140,43 @@
         "required": true,
         "types": [
           {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "!~",
+            "named": false
+          },
+          {
             "type": "&&",
             "named": false
           },
           {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
             "type": "||",
+            "named": false
+          },
+          {
+            "type": "~",
             "named": false
           }
         ]
@@ -154,6 +194,10 @@
             "named": true
           },
           {
+            "type": "dot_ident",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
@@ -166,7 +210,7 @@
             "named": true
           },
           {
-            "type": "string",
+            "type": "string_concat",
             "named": true
           },
           {
@@ -409,6 +453,10 @@
           "named": true
         },
         {
+          "type": "dot_ident",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
@@ -421,7 +469,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "string_concat",
           "named": true
         },
         {
@@ -636,6 +684,11 @@
     }
   },
   {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "esi_statement",
     "named": true,
     "fields": {}
@@ -733,6 +786,10 @@
           "named": true
         },
         {
+          "type": "dot_ident",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
@@ -745,7 +802,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "string_concat",
           "named": true
         },
         {
@@ -822,6 +879,10 @@
           "named": true
         },
         {
+          "type": "dot_ident",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
@@ -834,7 +895,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "string_concat",
           "named": true
         },
         {
@@ -952,6 +1013,10 @@
             "named": true
           },
           {
+            "type": "dot_ident",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
@@ -964,7 +1029,7 @@
             "named": true
           },
           {
-            "type": "string",
+            "type": "string_concat",
             "named": true
           },
           {
@@ -1021,7 +1086,32 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_concat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "sub_declaration",
@@ -1166,6 +1256,10 @@
             "named": true
           },
           {
+            "type": "dot_ident",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
@@ -1178,7 +1272,7 @@
             "named": true
           },
           {
-            "type": "string",
+            "type": "string_concat",
             "named": true
           },
           {
@@ -1238,11 +1332,15 @@
     }
   },
   {
-    "type": "\"",
+    "type": "!=",
     "named": false
   },
   {
-    "type": "\"\"\"",
+    "type": "!~",
+    "named": false
+  },
+  {
+    "type": "\"",
     "named": false
   },
   {
@@ -1310,11 +1408,31 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "<<=",
     "named": false
   },
   {
+    "type": "<=",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
     "named": false
   },
   {

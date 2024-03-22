@@ -1,13 +1,15 @@
-; Operators
 ; Keywords
 
 [
  "acl"
+ "add"
+ "backend"
  "break"
  "case"
  "call"
  "declare"
  "default"
+ "director"
  "else"
  "elsif"
  "elseif"
@@ -18,10 +20,19 @@
  "if"
  "include"
  "local"
+ "log"
+ "penaltybox"
+ "ratecounter"
  "return"
+ "remove"
+ "restart"
  "set"
  "sub"
+ "synthetic"
+ "synthetic.base64"
  "switch"
+ "table"
+ "unset"
 ] @keyword
 
 ; Punctioation
@@ -39,9 +50,33 @@
 ]  @punctuation.bracket
 
 [
- ;"+"
- "||"
- "&&"
+  "="
+  "+"
+  "="
+  "+="
+  "-="
+  "*="
+  "/="
+  "%="
+  "|="
+  "&="
+  "^="
+  "<<="
+  ">>="
+  "rol="
+  "ror="
+  "&&="
+  "||="
+  "=="
+  "!="
+  "~"
+  "!~"
+  ">"
+  "<"
+  ">="
+  "<="
+  "||"
+  "&&"
 ] @operator
 
 ; Comments
@@ -60,3 +95,5 @@
 ; Literals
 (number) @number
 (string) @string @spell
+(escape_sequence) @escape
+(bool) @constant.builtin

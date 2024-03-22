@@ -1,6 +1,7 @@
 const
   PREC = {
     unary: 6,
+    comparative: 3,
     and: 2,
     or: 1,
   },
@@ -325,12 +326,23 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $.ident,
+      $.dot_ident,
       $.number,
-      $.string,
+      $.string_concat,
       $.bool,
       $.rtime,
       $.unary_expression,
       $.binary_expression,
+    ),
+
+    string_concat: $ => seq(
+      $.string,
+      repeat(
+        seq(
+        optional('+'),
+        $.string,
+        ),
+      ),
     ),
 
     ident: $ => /[a-zA-Z][\W-]*/,
@@ -346,9 +358,11 @@ module.exports = grammar({
               ),
             ),
             optional(
-              seq(
-                token.immediate(':'),
-                token.immediate(/\w[\w-]*/),
+              field('field',
+                seq(
+                  token.immediate(':'),
+                  token.immediate(/\w[\w-]*/),
+                ),
               ),
             ),
           ),
@@ -359,8 +373,14 @@ module.exports = grammar({
     number: $ => /\d+/,
     bool: $ => choice('true', 'false'),
     string: $ => choice(
-      seq('"""', /"*(([^"]+?")+?")+?"/),
-      seq('"', /([^\"\u000A\u000D]*(\\"|\\)?)*/, '"'),
+      seq(
+        '"',
+        repeat(choice(
+          token.immediate(prec(1, /[^"\n%]+/)),
+          $.escape_sequence,
+        )),
+        '"'
+      ),
       seq('{"', /[^"]*"+([^}"][^"]*"+)*/, '}'),
     ),
     rtime: $ => seq(
@@ -395,6 +415,7 @@ module.exports = grammar({
 
     binary_expression: $ => {
       const table = [
+        [PREC.comparative, choice(...conditional_operators)],
         [PREC.and, '&&'],
         [PREC.or, '||'],
       ];
