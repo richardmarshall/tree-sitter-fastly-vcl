@@ -1,6 +1,11 @@
 const
+  PREC = {
+    unary: 6,
+    and: 2,
+    or: 1,
+  },
   assignment_operators = ['=', '+=', '-=', '*=', '/=', '%=', '|=', '&=', '^=', '<<=', '>>=', 'rol=', 'ror=', '&&=', '||='],
-  conditional_operators = ['==', '!=', '~', '!~', '>', '<', '>=', '<='],
+  conditional_operators = ['==', '!=', '~', '!~', '>', '<', '>=', '<=', '||', '&&'],
   terminator = ';';
 
 module.exports = grammar({
@@ -12,7 +17,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._declaration),
+    source_file: $ => repeat(choice($._declaration, $.include_statement)),
 
     comment: () => token(
       choice(
@@ -122,7 +127,7 @@ module.exports = grammar({
         seq(
           $.number,
           optional(
-            $._string_literal,
+            $.string,
           ),
         ),
       ),
@@ -134,7 +139,7 @@ module.exports = grammar({
 
     include_statement: $ => seq(
       'include',
-      $._string_literal,
+      $.string,
     ),
 
     log_statement: $ => seq(
@@ -168,12 +173,12 @@ module.exports = grammar({
 
     synthetic_statement: $ => seq(
       'synthetic',
-      $._string_literal,
+      $.string,
     ),
 
     synthetic_base64_statement: $ => seq(
       'synthetic.base64',
-      $._string_literal,
+      $.string,
     ),
 
     unset_statement: $ => seq(
@@ -224,7 +229,7 @@ module.exports = grammar({
       'case',
       field('test', seq(
         optional('~'),
-        $._string_literal,
+        $.string,
       )),
       ':',
       $._statement_list,
@@ -320,7 +325,12 @@ module.exports = grammar({
 
     _expression: $ => choice(
       $.ident,
-      $.number
+      $.number,
+      $.string,
+      $.bool,
+      $.rtime,
+      $.unary_expression,
+      $.binary_expression,
     ),
 
     ident: $ => /[a-zA-Z][\W-]*/,
@@ -328,10 +338,18 @@ module.exports = grammar({
       seq(
         /[a-zA-Z][\W-]*/,
         token.immediate(
-          repeat(
-            seq(
-              token.immediate('.'),
-              token.immediate(/\w[\w-]*/),
+          seq(
+            repeat(
+              seq(
+                token.immediate('.'),
+                token.immediate(/\w[\w-]*/),
+              ),
+            ),
+            optional(
+              seq(
+                token.immediate(':'),
+                token.immediate(/\w[\w-]*/),
+              ),
             ),
           ),
         ),
@@ -339,22 +357,57 @@ module.exports = grammar({
     ),
 
     number: $ => /\d+/,
-
-    _string_literal: $ => choice(
-      $.short_string_literal,
-      $.long_string_literal,
+    bool: $ => choice('true', 'false'),
+    string: $ => choice(
+      seq('"""', /"*(([^"]+?")+?")+?"/),
+      seq('"', /([^\"\u000A\u000D]*(\\"|\\)?)*/, '"'),
+      seq('{"', /[^"]*"+([^}"][^"]*"+)*/, '}'),
+    ),
+    rtime: $ => seq(
+      $.number,
+      choice(
+        'ms', 's', 'm', 'h', 'd', 'y',
+      ),
     ),
 
-    short_string_literal: _ => token(seq(
-      '"',
-      repeat(/[^"]/),
-      '"',
+    escape_sequence: $ => seq(
+      '%',
+      choice(
+        /[0-9a-zA-Z]{2}/,
+        seq(
+          'u',
+          choice(
+            /[0-9a-zA-Z]{4}/,
+            seq(
+              '{',
+              /[0-9a-zA-Z]{1,6}/,
+              '}',
+            ),
+          )
+        ),
+      ),
+    ),
+
+    unary_expression: $ => prec(PREC.unary, seq(
+      field('operator', choice('+', '-')),
+      field('operand', $._expression),
     )),
 
-    long_string_literal: _ => token(seq(
-      '{"',
-      repeat(/[^"]/),
-      '"}',
-    )),
+    binary_expression: $ => {
+      const table = [
+        [PREC.and, '&&'],
+        [PREC.or, '||'],
+      ];
+
+      return choice(...table.map(([precedence, operator]) =>
+        // @ts-ignore
+        prec.left(precedence, seq(
+          field('left', $._expression),
+          // @ts-ignore
+          field('operator', operator),
+          field('right', $._expression),
+        )),
+      ));
+    },
   }
 });

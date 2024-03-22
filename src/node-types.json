@@ -43,11 +43,31 @@
         "required": true,
         "types": [
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "rtime",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
             "named": true
           }
         ]
@@ -67,6 +87,94 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "binary_expression",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "rtime",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "&&",
+            "named": false
+          },
+          {
+            "type": "||",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "rtime",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -157,6 +265,11 @@
     }
   },
   {
+    "type": "bool",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "break_statement",
     "named": true,
     "fields": {}
@@ -186,11 +299,7 @@
         "required": true,
         "types": [
           {
-            "type": "long_string_literal",
-            "named": true
-          },
-          {
-            "type": "short_string_literal",
+            "type": "string",
             "named": true
           },
           {
@@ -292,11 +401,31 @@
       "required": true,
       "types": [
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rtime",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -496,15 +625,11 @@
       "required": false,
       "types": [
         {
-          "type": "long_string_literal",
-          "named": true
-        },
-        {
           "type": "number",
           "named": true
         },
         {
-          "type": "short_string_literal",
+          "type": "string",
           "named": true
         }
       ]
@@ -569,11 +694,7 @@
       "required": true,
       "types": [
         {
-          "type": "long_string_literal",
-          "named": true
-        },
-        {
-          "type": "short_string_literal",
+          "type": "string",
           "named": true
         }
       ]
@@ -604,11 +725,31 @@
       "required": true,
       "types": [
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
         {
           "type": "number",
+          "named": true
+        },
+        {
+          "type": "rtime",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -673,9 +814,44 @@
       "required": false,
       "types": [
         {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
           "type": "ident",
           "named": true
         },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "rtime",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rtime",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "number",
           "named": true
@@ -768,11 +944,31 @@
         "required": true,
         "types": [
           {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
             "type": "ident",
             "named": true
           },
           {
             "type": "number",
+            "named": true
+          },
+          {
+            "type": "rtime",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
             "named": true
           }
         ]
@@ -800,6 +996,10 @@
           "named": true
         },
         {
+          "type": "include_statement",
+          "named": true
+        },
+        {
           "type": "penaltybox_declaration",
           "named": true
         },
@@ -817,6 +1017,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "string",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "sub_declaration",
@@ -876,11 +1081,7 @@
       "required": true,
       "types": [
         {
-          "type": "long_string_literal",
-          "named": true
-        },
-        {
-          "type": "short_string_literal",
+          "type": "string",
           "named": true
         }
       ]
@@ -895,11 +1096,7 @@
       "required": true,
       "types": [
         {
-          "type": "long_string_literal",
-          "named": true
-        },
-        {
-          "type": "short_string_literal",
+          "type": "string",
           "named": true
         }
       ]
@@ -953,6 +1150,60 @@
     }
   },
   {
+    "type": "unary_expression",
+    "named": true,
+    "fields": {
+      "operand": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "rtime",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "unset_statement",
     "named": true,
     "fields": {},
@@ -987,7 +1238,23 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "\"\"\"",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
     "type": "%=",
+    "named": false
+  },
+  {
+    "type": "&&",
     "named": false
   },
   {
@@ -1011,11 +1278,19 @@
     "named": false
   },
   {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": "+=",
     "named": false
   },
   {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
     "named": false
   },
   {
@@ -1099,6 +1374,10 @@
     "named": true
   },
   {
+    "type": "d",
+    "named": false
+  },
+  {
     "type": "declare",
     "named": false
   },
@@ -1139,6 +1418,14 @@
     "named": false
   },
   {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "h",
+    "named": false
+  },
+  {
     "type": "ident",
     "named": true
   },
@@ -1163,8 +1450,12 @@
     "named": false
   },
   {
-    "type": "long_string_literal",
-    "named": true
+    "type": "m",
+    "named": false
+  },
+  {
+    "type": "ms",
+    "named": false
   },
   {
     "type": "number",
@@ -1199,12 +1490,12 @@
     "named": false
   },
   {
-    "type": "set",
+    "type": "s",
     "named": false
   },
   {
-    "type": "short_string_literal",
-    "named": true
+    "type": "set",
+    "named": false
   },
   {
     "type": "sub",
@@ -1227,7 +1518,19 @@
     "named": false
   },
   {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "u",
+    "named": false
+  },
+  {
     "type": "unset",
+    "named": false
+  },
+  {
+    "type": "y",
     "named": false
   },
   {
@@ -1235,7 +1538,15 @@
     "named": false
   },
   {
+    "type": "{\"",
+    "named": false
+  },
+  {
     "type": "|=",
+    "named": false
+  },
+  {
+    "type": "||",
     "named": false
   },
   {

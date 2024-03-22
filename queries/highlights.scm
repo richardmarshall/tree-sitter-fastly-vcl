@@ -11,11 +11,14 @@
  "else"
  "elsif"
  "elseif"
+ "error"
+ "esi"
  "fallthrough"
  ;"goto"
  "if"
  "include"
  "local"
+ "return"
  "set"
  "sub"
  "switch"
@@ -35,9 +38,18 @@
   "}"
 ]  @punctuation.bracket
 
+[
+ ;"+"
+ "||"
+ "&&"
+] @operator
+
 ; Comments
 
-(comment) @comment
+(comment) @comment @spell
+
+(call_statement
+  ident: (ident) @function.call)
 
 ; Identifiers
 
@@ -47,3 +59,4 @@
 
 ; Literals
 (number) @number
+(string) @string @spell
