@@ -1,7 +1,8 @@
 const
   PREC = {
-    unary: 6,
-    comparative: 3,
+    call: 5,
+    unary: 4,
+    conditional: 3,
     and: 2,
     or: 1,
   },
@@ -18,12 +19,12 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat(choice($._declaration, $.include_statement)),
+    source_file: $ => repeat(choice($._declaration, seq($.include_statement, ';'))),
 
     comment: () => token(
       choice(
-        seq('#', /.*/),
-        seq('//', /.*/),
+        seq('#', /[^\n]*/),
+        seq('//', /[^\n]*/),
         seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
       ),
     ),
@@ -43,22 +44,50 @@ module.exports = grammar({
     acl_declaration: $ => seq(
       'acl',
       $.ident,
-      '{',
-      '}',
+      field('body', seq(
+        '{',
+        seq(
+          optional('!'),
+          $.string,
+          optional(seq('/', $.number)),
+        ),
+        '}',
+      )),
     ),
 
     backend_declaration: $ => seq(
       'backend',
       $.ident,
-      '{',
-      '}',
+      field('body', seq(
+        '{',
+        repeat($.dot_property),
+        '}',
+      )),
     ),
 
     director_declaration: $ => seq(
       'director',
       $.ident,
-      '{',
-      '}',
+      field('body', seq(
+        '{',
+        repeat($.dot_property),
+        '}',
+      )),
+    ),
+
+    dot_property: $ => seq(
+      '.',
+      $.ident,
+      '=',
+      choice(
+        $._expression,
+        seq(
+          '{',
+          repeat($.dot_property),
+          '}',
+        ),
+      ),
+      ';',
     ),
 
     penaltybox_declaration: $ => seq(
@@ -85,6 +114,14 @@ module.exports = grammar({
       $.ident,
       optional($.type),
       '{',
+      repeat(
+        seq(
+          $.string,
+          ':',
+          choice($.literal, $.ident),
+        ),
+      ),
+
       '}',
     ),
 
@@ -111,7 +148,7 @@ module.exports = grammar({
 
     call_statement: $ => seq(
       'call',
-      field('ident', $.ident),
+      field('ident', choice($.ident, $.dot_ident)),
       optional(seq('(', ')')),
     ),
 
@@ -160,9 +197,21 @@ module.exports = grammar({
     return_statement: $ => seq(
       'return',
       optional(choice(
-        seq('(', $.ident, ')'),
-      $._expression,
+        seq('(', $.states, ')'),
+        $._expression,
       )),
+    ),
+
+    states: $ => choice(
+      'deliver',
+      'deliver_stale',
+      'error',
+      'fetch',
+      'hash',
+      'lookup',
+      'pass',
+      'restart',
+      'upgrade',
     ),
 
     set_statement: $ => seq(
@@ -242,17 +291,15 @@ module.exports = grammar({
       $._statement_list,
     ),
 
-    labeled_statement: $ => seq(
+    statement_label: $ => seq(
       field('label', alias($.ident, $.label_name)),
-      ':',
-      $._statement,
+      ':'
     ),
 
-    empty_labeled_statement: $ => seq(
-      field('label', alias($.ident, $.label_name)),
-      ':',
+    goto_statement: $ => seq(
+      'goto',
+      $.ident,
     ),
-
 
     _line_statement: $ => seq(
       choice(
@@ -272,6 +319,8 @@ module.exports = grammar({
         $.unset_statement,
         $.break_statement,
         $.fallthrough_statement,
+        $.function_call_statement,
+        $.goto_statement,
       ),
       terminator,
     ),
@@ -284,11 +333,21 @@ module.exports = grammar({
     _statement: $ => choice(
       $._line_statement,
       $._block_statement,
+      $.statement_label,
     ),
 
     conditional_expression: $ => seq(
       '(', $._expression, ')',
     ),
+
+    function_call_expression: $ => prec(
+      PREC.call,
+      seq(
+        field('ident', choice($.dot_ident, $.ident)),
+        field('args', $.argument_list),
+      ),
+    ),
+    function_call_statement: $ => $.function_call_expression,
 
     argument_list: $ => seq(
       '(',
@@ -300,11 +359,15 @@ module.exports = grammar({
     ),
 
     type: $ => choice(
+      'ACL',
+      'BACKEND',
       'BOOL',
-      'INTEGER',
       'FLOAT',
-      'TIME',
+      'INTEGER',
+      'IP',
       'RTIME',
+      'STRING',
+      'TIME',
     ),
 
     block: $ => seq(
@@ -313,34 +376,31 @@ module.exports = grammar({
       '}',
     ),
 
-    _statement_list: $ => choice(
-      seq(
-        $._statement,
-        repeat($._statement),
-        optional(seq(
-          optional(alias($.empty_labeled_statement, $.labeled_statement)),
-        )),
-      ),
-      alias($.empty_labeled_statement, $.labeled_statement),
+    _statement_list: $ => seq(
+      $._statement,
+      repeat($._statement),
     ),
 
     _expression: $ => choice(
       $.ident,
       $.dot_ident,
       $.number,
-      $.string_concat,
+      $.concat,
+      $.string,
       $.bool,
       $.rtime,
       $.unary_expression,
       $.binary_expression,
+      $.conditional_expression,
+      $.function_call_expression,
     ),
 
-    string_concat: $ => seq(
-      $.string,
-      repeat(
+    concat: $ => seq(
+      choice($.string, $.ident, $.dot_ident),
+      repeat1(
         seq(
         optional('+'),
-        $.string,
+        choice($.string, $.ident, $.dot_ident),
         ),
       ),
     ),
@@ -370,7 +430,7 @@ module.exports = grammar({
       ),
     ),
 
-    number: $ => /\d+/,
+    number: $ => choice(/\d+/, seq('0x', /[\da-fA-F]+/)),
     bool: $ => choice('true', 'false'),
     string: $ => choice(
       seq(
@@ -381,7 +441,7 @@ module.exports = grammar({
         )),
         '"'
       ),
-      seq('{"', /[^"]*"+([^}"][^"]*"+)*/, '}'),
+      token(seq('{"', token.immediate(/[^"]*"+([^}"][^"]*"+)*/), token.immediate('}'))),
     ),
     rtime: $ => seq(
       $.number,
@@ -390,17 +450,24 @@ module.exports = grammar({
       ),
     ),
 
+    literal: $ => choice(
+      $.number,
+      $.bool,
+      $.string,
+      $.rtime,
+    ),
+
     escape_sequence: $ => seq(
       '%',
       choice(
-        /[0-9a-zA-Z]{2}/,
+        /[0-9a-fA-F]{2}/,
         seq(
           'u',
           choice(
-            /[0-9a-zA-Z]{4}/,
+            /[0-9a-fA-F]{4}/,
             seq(
               '{',
-              /[0-9a-zA-Z]{1,6}/,
+              /[0-9a-fA-F]{1,6}/,
               '}',
             ),
           )
@@ -408,14 +475,20 @@ module.exports = grammar({
       ),
     ),
 
-    unary_expression: $ => prec(PREC.unary, seq(
-      field('operator', choice('+', '-')),
-      field('operand', $._expression),
+    unary_expression: $ => prec(PREC.unary, choice(
+      seq(
+        field('operator', choice('+', '-', '!')),
+        field('operand', $._expression),
+      ),
+      seq(
+        field('operand', $.number),
+        field('operator', '%'),
+      ),
     )),
 
     binary_expression: $ => {
       const table = [
-        [PREC.comparative, choice(...conditional_operators)],
+        [PREC.conditional, choice(...conditional_operators)],
         [PREC.and, '&&'],
         [PREC.or, '||'],
       ];

@@ -2,7 +2,38 @@
   {
     "type": "acl_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -51,7 +82,19 @@
             "named": true
           },
           {
+            "type": "concat",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
             "type": "dot_ident",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
             "named": true
           },
           {
@@ -67,7 +110,7 @@
             "named": true
           },
           {
-            "type": "string_concat",
+            "type": "string",
             "named": true
           },
           {
@@ -79,9 +122,83 @@
     }
   },
   {
-    "type": "backend_declaration",
+    "type": "argument_list",
     "named": true,
     "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "concat",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dot_ident",
+          "named": true
+        },
+        {
+          "type": "function_call_expression",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "rtime",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "backend_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "dot_property",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -110,7 +227,19 @@
             "named": true
           },
           {
+            "type": "concat",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
             "type": "dot_ident",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
             "named": true
           },
           {
@@ -126,7 +255,7 @@
             "named": true
           },
           {
-            "type": "string_concat",
+            "type": "string",
             "named": true
           },
           {
@@ -194,7 +323,19 @@
             "named": true
           },
           {
+            "type": "concat",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
             "type": "dot_ident",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
             "named": true
           },
           {
@@ -210,7 +351,7 @@
             "named": true
           },
           {
-            "type": "string_concat",
+            "type": "string",
             "named": true
           },
           {
@@ -258,15 +399,19 @@
           "named": true
         },
         {
+          "type": "function_call_statement",
+          "named": true
+        },
+        {
+          "type": "goto_statement",
+          "named": true
+        },
+        {
           "type": "if_statement",
           "named": true
         },
         {
           "type": "include_statement",
-          "named": true
-        },
-        {
-          "type": "labeled_statement",
           "named": true
         },
         {
@@ -287,6 +432,10 @@
         },
         {
           "type": "set_statement",
+          "named": true
+        },
+        {
+          "type": "statement_label",
           "named": true
         },
         {
@@ -326,6 +475,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "dot_ident",
+            "named": true
+          },
           {
             "type": "ident",
             "named": true
@@ -386,15 +539,19 @@
           "named": true
         },
         {
+          "type": "function_call_statement",
+          "named": true
+        },
+        {
+          "type": "goto_statement",
+          "named": true
+        },
+        {
           "type": "if_statement",
           "named": true
         },
         {
           "type": "include_statement",
-          "named": true
-        },
-        {
-          "type": "labeled_statement",
           "named": true
         },
         {
@@ -418,6 +575,10 @@
           "named": true
         },
         {
+          "type": "statement_label",
+          "named": true
+        },
+        {
           "type": "switch_statement",
           "named": true
         },
@@ -431,6 +592,29 @@
         },
         {
           "type": "unset_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "concat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_ident",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         }
       ]
@@ -453,7 +637,19 @@
           "named": true
         },
         {
+          "type": "concat",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "dot_ident",
+          "named": true
+        },
+        {
+          "type": "function_call_expression",
           "named": true
         },
         {
@@ -469,7 +665,7 @@
           "named": true
         },
         {
-          "type": "string_concat",
+          "type": "string",
           "named": true
         },
         {
@@ -542,15 +738,19 @@
           "named": true
         },
         {
+          "type": "function_call_statement",
+          "named": true
+        },
+        {
+          "type": "goto_statement",
+          "named": true
+        },
+        {
           "type": "if_statement",
           "named": true
         },
         {
           "type": "include_statement",
-          "named": true
-        },
-        {
-          "type": "labeled_statement",
           "named": true
         },
         {
@@ -571,6 +771,10 @@
         },
         {
           "type": "set_statement",
+          "named": true
+        },
+        {
+          "type": "statement_label",
           "named": true
         },
         {
@@ -595,13 +799,91 @@
   {
     "type": "director_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "dot_property",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
           "type": "ident",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dot_property",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "concat",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "dot_ident",
+          "named": true
+        },
+        {
+          "type": "dot_property",
+          "named": true
+        },
+        {
+          "type": "function_call_expression",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "rtime",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         }
       ]
@@ -699,6 +981,66 @@
     "fields": {}
   },
   {
+    "type": "function_call_expression",
+    "named": true,
+    "fields": {
+      "args": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument_list",
+            "named": true
+          }
+        ]
+      },
+      "ident": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dot_ident",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "function_call_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_call_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "goto_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if_statement",
     "named": true,
     "fields": {
@@ -754,19 +1096,30 @@
     }
   },
   {
-    "type": "labeled_statement",
+    "type": "literal",
     "named": true,
-    "fields": {
-      "label": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "label_name",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "rtime",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -786,7 +1139,19 @@
           "named": true
         },
         {
+          "type": "concat",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "dot_ident",
+          "named": true
+        },
+        {
+          "type": "function_call_expression",
           "named": true
         },
         {
@@ -802,7 +1167,7 @@
           "named": true
         },
         {
-          "type": "string_concat",
+          "type": "string",
           "named": true
         },
         {
@@ -811,6 +1176,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "number",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "penaltybox_declaration",
@@ -879,7 +1249,19 @@
           "named": true
         },
         {
+          "type": "concat",
+          "named": true
+        },
+        {
+          "type": "conditional_expression",
+          "named": true
+        },
+        {
           "type": "dot_ident",
+          "named": true
+        },
+        {
+          "type": "function_call_expression",
           "named": true
         },
         {
@@ -895,7 +1277,11 @@
           "named": true
         },
         {
-          "type": "string_concat",
+          "type": "states",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -1013,7 +1399,19 @@
             "named": true
           },
           {
+            "type": "concat",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
             "type": "dot_ident",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
             "named": true
           },
           {
@@ -1029,7 +1427,7 @@
             "named": true
           },
           {
-            "type": "string_concat",
+            "type": "string",
             "named": true
           },
           {
@@ -1084,6 +1482,27 @@
     }
   },
   {
+    "type": "statement_label",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "label_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "states",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "string",
     "named": true,
     "fields": {},
@@ -1093,21 +1512,6 @@
       "types": [
         {
           "type": "escape_sequence",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "string_concat",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "string",
           "named": true
         }
       ]
@@ -1205,6 +1609,14 @@
           "named": true
         },
         {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         }
@@ -1256,7 +1668,19 @@
             "named": true
           },
           {
+            "type": "concat",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
             "type": "dot_ident",
+            "named": true
+          },
+          {
+            "type": "function_call_expression",
             "named": true
           },
           {
@@ -1272,7 +1696,7 @@
             "named": true
           },
           {
-            "type": "string_concat",
+            "type": "string",
             "named": true
           },
           {
@@ -1285,6 +1709,14 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "%",
+            "named": false
+          },
           {
             "type": "+",
             "named": false
@@ -1330,6 +1762,10 @@
         }
       ]
     }
+  },
+  {
+    "type": "!",
+    "named": false
   },
   {
     "type": "!=",
@@ -1396,7 +1832,19 @@
     "named": false
   },
   {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
     "type": "/=",
+    "named": false
+  },
+  {
+    "type": "0x",
     "named": false
   },
   {
@@ -1440,6 +1888,14 @@
     "named": false
   },
   {
+    "type": "ACL",
+    "named": false
+  },
+  {
+    "type": "BACKEND",
+    "named": false
+  },
+  {
     "type": "BOOL",
     "named": false
   },
@@ -1452,7 +1908,15 @@
     "named": false
   },
   {
+    "type": "IP",
+    "named": false
+  },
+  {
     "type": "RTIME",
+    "named": false
+  },
+  {
+    "type": "STRING",
     "named": false
   },
   {
@@ -1504,6 +1968,14 @@
     "named": false
   },
   {
+    "type": "deliver",
+    "named": false
+  },
+  {
+    "type": "deliver_stale",
+    "named": false
+  },
+  {
     "type": "director",
     "named": false
   },
@@ -1540,7 +2012,19 @@
     "named": false
   },
   {
+    "type": "fetch",
+    "named": false
+  },
+  {
+    "type": "goto",
+    "named": false
+  },
+  {
     "type": "h",
+    "named": false
+  },
+  {
+    "type": "hash",
     "named": false
   },
   {
@@ -1568,6 +2052,10 @@
     "named": false
   },
   {
+    "type": "lookup",
+    "named": false
+  },
+  {
     "type": "m",
     "named": false
   },
@@ -1576,8 +2064,8 @@
     "named": false
   },
   {
-    "type": "number",
-    "named": true
+    "type": "pass",
+    "named": false
   },
   {
     "type": "penaltybox",
@@ -1648,15 +2136,15 @@
     "named": false
   },
   {
+    "type": "upgrade",
+    "named": false
+  },
+  {
     "type": "y",
     "named": false
   },
   {
     "type": "{",
-    "named": false
-  },
-  {
-    "type": "{\"",
     "named": false
   },
   {
