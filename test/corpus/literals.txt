@@ -1,0 +1,174 @@
+================================================================================
+Int literals
+================================================================================
+
+sub vcl_recv {
+  set req.http.t = 42;
+  set req.http.t = 042;
+  set req.http.t = 0x42;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (sub_declaration
+    (void_sub_declaration
+      (ident)
+      (block
+        (set_statement
+          (dot_ident)
+          (number))
+        (set_statement
+          (dot_ident)
+          (number))
+        (set_statement
+          (dot_ident)
+          (number))))))
+
+================================================================================
+Float literals
+================================================================================
+
+sub vcl_recv {
+  set req.http.t = 42;
+  set req.http.t = 042;
+  set req.http.t = 0x42;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (sub_declaration
+    (void_sub_declaration
+      (ident)
+      (block
+        (set_statement
+          (dot_ident)
+          (number))
+        (set_statement
+          (dot_ident)
+          (number))
+        (set_statement
+          (dot_ident)
+          (number))))))
+
+================================================================================
+String literals
+================================================================================
+
+sub vcl_recv {
+  set req.http.t = "hello";
+  set req.http.t = {"hello"};
+  set req.http.t = "0";
+  set req.http.t = {"0"};
+  set req.http.t = "%20";
+  set req.http.t = "%u0020";
+  set req.http.t = "%u{000020}";
+  set req.http.t = {"%20"};
+  set req.http.t = {"%u0020"};
+  set req.http.t = {"%u{000020}"};
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (sub_declaration
+    (void_sub_declaration
+      (ident)
+      (block
+        (set_statement
+          (dot_ident)
+          (string))
+        (set_statement
+          (dot_ident)
+          (string))
+        (set_statement
+          (dot_ident)
+          (string))
+        (set_statement
+          (dot_ident)
+          (string))
+        (set_statement
+          (dot_ident)
+          (string
+            (escape_sequence)))
+        (set_statement
+          (dot_ident)
+          (string
+            (escape_sequence)))
+        (set_statement
+          (dot_ident)
+          (string
+            (escape_sequence)))
+        (set_statement
+          (dot_ident)
+          (string))
+        (set_statement
+          (dot_ident)
+          (string))
+        (set_statement
+          (dot_ident)
+          (string))))))
+
+================================================================================
+Bool literals
+================================================================================
+
+sub vcl_recv {
+  set req.http.t = true;
+  set req.http.t = false;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (sub_declaration
+    (void_sub_declaration
+      (ident)
+      (block
+        (set_statement
+          (dot_ident)
+          (bool))
+        (set_statement
+          (dot_ident)
+          (bool))))))
+
+================================================================================
+RTime literals
+================================================================================
+
+sub vcl_recv {
+  set req.http.t = 42ms;
+  set req.http.t = 42s;
+  set req.http.t = 42m;
+  set req.http.t = 42d;
+  set req.http.t = 42y;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (sub_declaration
+    (void_sub_declaration
+      (ident)
+      (block
+        (set_statement
+          (dot_ident)
+          (rtime
+            (number)))
+        (set_statement
+          (dot_ident)
+          (rtime
+            (number)))
+        (set_statement
+          (dot_ident)
+          (rtime
+            (number)))
+        (set_statement
+          (dot_ident)
+          (rtime
+            (number)))
+        (set_statement
+          (dot_ident)
+          (rtime
+            (number)))))))
